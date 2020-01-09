@@ -1,6 +1,6 @@
 //@@@@@@@@@@@@@@@@@@@@@@@@@ bolum 1 - 7 arası @@@@@@@@@@@@@@@@@@@@@@@@@@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 // import './Person.css';
 const StyledDiv = styled.div`
@@ -17,7 +17,7 @@ const StyledDiv = styled.div`
 `;
 
 const Person = props => {
- // const rnd = Math.random();
+  // const rnd = Math.random();
 
   // if ( rnd > 0.7 ) {
   //     throw new Error( 'Bir şeyler yanlış gitti');
@@ -25,9 +25,7 @@ const Person = props => {
   return (
     // <div className="Person" style={style}>
     <StyledDiv>
-      <p onClick={props.click}>
-        I'm {props.name} and I am {props.age} years old!
-      </p>
+      <p onClick={props.click}>name : {props.name}  --  age : {props.age}</p>
       <p>{props.children}</p>
       <input type="text" onChange={props.changed} value={props.name} />
     </StyledDiv>

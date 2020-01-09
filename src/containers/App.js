@@ -451,7 +451,7 @@
 //   border: 1px solid blue;
 //   padding: 8px;
 //   cursor: pointer;
-  
+
 //   &:hover {
 //     background-color: ${props => props.changeIt ? 'salmon' : 'lightgreen'};
 //     color: black;
@@ -506,7 +506,6 @@
 //     //     color: 'black'
 //     //   }
 //     // };
-
 
 //     let persons = null;
 //     if (this.state.showPersons) {
@@ -585,7 +584,7 @@
 //   };
 
 //   deletePersonHandler = personIndex => {
-    
+
 //     const persons = [...this.state.persons];
 //     persons.splice(personIndex, 1);
 //     this.setState({ persons: persons });
@@ -641,23 +640,23 @@
 
 // export default App;
 // //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ BOLUM tekrar 7 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-import React, { Component } from 'react';
-import styled from 'styled-components';
+import React, { Component } from "react";
+import styled from "styled-components";
 
-import './App.css';
-import Person from './Person/Person';
-//import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+import "./App.css";
+import Persons from "../components/Persons/Persons";
+import Cockpit from '../components/Cockpit/Cockpit';
 
 const StyledButton = styled.button`
-  background-color: ${props => props.changeIt ? 'red' : 'green'};
+  background-color: ${props => (props.changeIt ? "red" : "green")};
   color: white;
   font: inherit;
   border: 1px solid blue;
   padding: 8px;
   cursor: pointer;
-  
+
   &:hover {
-    background-color: ${props => props.changeIt ? 'salmon' : 'lightgreen'};
+    background-color: ${props => (props.changeIt ? "salmon" : "lightgreen")};
     color: black;
   }
 `;
@@ -665,8 +664,8 @@ class App extends Component {
   state = {
     // keyword: 'test' ,
     persons: [
-      {id:'deneme1', name: "xx", age: 1 },
-      {id:'deneme2', name: "yy", age: 2 }
+      { id: "deneme1", name: "xx", age: 1 },
+      { id: "deneme2", name: "yy", age: 2 }
     ],
     otherState: "some other value",
     showPersons: false
@@ -674,9 +673,8 @@ class App extends Component {
 
   nameChangedHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex(p => {
-      //return p.id === id; debug icin id -> userId yaptık 
+      //return p.id === id; debug icin id -> userId yaptık
       return p.id === id;
-
     });
 
     const person = {
@@ -685,7 +683,7 @@ class App extends Component {
 
     // const person = Object.assign({}, this.state.persons[personIndex]);
 
-//    person.name = event.target.value; debug icin targed -> input yaptık consolde tanımsız olarak hata verdi
+    //    person.name = event.target.value; debug icin targed -> input yaptık consolde tanımsız olarak hata verdi
     person.name = event.target.value;
 
     const persons = [...this.state.persons];
@@ -707,66 +705,50 @@ class App extends Component {
   };
 
   render() {
-    // const style = {
-    //   backgroundColor: 'green',
-    //   color: 'white',
-    //   font: 'inherit',
-    //   border: '1px solid blue',
-    //   padding: '8px',
-    //   cursor: 'pointer',
-    //   ':hover': {
-    //     backgroundColor: 'lightgreen',
-    //     color: 'black'
-    //   }
-    // };
-
+    console.log('[App.js] render');
     let persons = null;
 
     if (this.state.showPersons) {
       persons = (
-        <div>
-          {this.state.persons.map((person, index) => {
-            return (
-           //   <ErrorBoundary key={person.id}>
-              <Person 
-                click={() => this.deletePersonHandler(index)}
-                name={person.name}
-                age={person.age}
-                key={person.id}
-                changed={event => this.nameChangedHandler(event, person.id)}
-                />
-          //     </ErrorBoundary>
-           );
-          })}
-        </div>
+        <Persons
+          persons={this.state.persons}
+          clicked={this.deletePersonHandler}
+          changed={this.nameChangedHandler}
+        />
       );
-
-      // style.backgroundColor = 'red';
-      // style[':hover'] = {
-      //   backgroundColor: 'salmon',
-      //   color: 'black'
-      // };
     }
 
     const classes = [];
     if (this.state.persons.length <= 2) {
-      classes.push('red'); // classes = ['red']
+      classes.push("red"); // classes = ['red']
     }
     if (this.state.persons.length <= 1) {
-      classes.push('bold'); // classes = ['red', 'bold']
+      classes.push("bold"); // classes = ['red', 'bold']
     }
 
     return (
+      // <div className="App">
+      //   <h1>Hi, I'm a React App</h1>
+      //   <p className={classes.join(" ")}>This is really working!</p>
+      //   <StyledButton
+      //     changeIt={this.state.showPersons}
+      //     onClick={this.togglePersonsHandler}
+      //   >
+      //     Toggle Persons
+      //   </StyledButton>
+      //   {persons}
+      // </div>
       <div className="App">
-        <h1>Hi, I'm a React App</h1>
-        <p className={classes.join(' ')}>This is really working!</p>
-        <StyledButton changeIt={this.state.showPersons} onClick={this.togglePersonsHandler}>
-          Toggle Persons
-        </StyledButton>
-        {persons}
-      </div>
+      <Cockpit
+        title={this.props.appTitle}
+        showPersons={this.state.showPersons}
+        persons={this.state.persons}
+        clicked={this.togglePersonsHandler}
+      />
+      {persons}
+    </div>
+
     );
-    // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
   }
 }
 
