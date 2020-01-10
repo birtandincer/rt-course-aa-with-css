@@ -641,26 +641,29 @@
 // export default App;
 // //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ BOLUM tekrar 7 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 import React, { Component } from "react";
-import styled from "styled-components";
-
-import "./App.css";
+//import styled from "styled-components";
+import classes from './App.css';
 import Persons from "../components/Persons/Persons";
 import Cockpit from '../components/Cockpit/Cockpit';
 
-const StyledButton = styled.button`
-  background-color: ${props => (props.changeIt ? "red" : "green")};
-  color: white;
-  font: inherit;
-  border: 1px solid blue;
-  padding: 8px;
-  cursor: pointer;
+// const StyledButton = styled.button`
+//   background-color: ${props => (props.changeIt ? "red" : "green")};
+//   color: white;
+//   font: inherit;
+//   border: 1px solid blue;
+//   padding: 8px;
+//   cursor: pointer;
 
-  &:hover {
-    background-color: ${props => (props.changeIt ? "salmon" : "lightgreen")};
-    color: black;
-  }
-`;
+//   &:hover {
+//     background-color: ${props => (props.changeIt ? "salmon" : "lightgreen")};
+//     color: black;
+//   }
+// `;
 class App extends Component {
+  constructor(props) {
+    super(props);
+    console.log('[App.js] constructor');
+  }
   state = {
     // keyword: 'test' ,
     persons: [
@@ -671,9 +674,21 @@ class App extends Component {
     showPersons: false
   };
 
+  static getDerivedStateFromProps(props, state) {
+    console.log('[App.js] getDerivedStateFromProps', props);
+    return state;
+  }
+
+  componentWillMount() {
+    console.log('[App.js] componentWillMount');
+  }
+
+  componentDidMount() {
+    console.log('[App.js] componentDidMount');
+  }
+
   nameChangedHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex(p => {
-      //return p.id === id; debug icin id -> userId yaptık
       return p.id === id;
     });
 
@@ -683,7 +698,6 @@ class App extends Component {
 
     // const person = Object.assign({}, this.state.persons[personIndex]);
 
-    //    person.name = event.target.value; debug icin targed -> input yaptık consolde tanımsız olarak hata verdi
     person.name = event.target.value;
 
     const persons = [...this.state.persons];
@@ -718,37 +732,18 @@ class App extends Component {
       );
     }
 
-    const classes = [];
-    if (this.state.persons.length <= 2) {
-      classes.push("red"); // classes = ['red']
-    }
-    if (this.state.persons.length <= 1) {
-      classes.push("bold"); // classes = ['red', 'bold']
-    }
-
     return (
-      // <div className="App">
-      //   <h1>Hi, I'm a React App</h1>
-      //   <p className={classes.join(" ")}>This is really working!</p>
-      //   <StyledButton
-      //     changeIt={this.state.showPersons}
-      //     onClick={this.togglePersonsHandler}
-      //   >
-      //     Toggle Persons
-      //   </StyledButton>
-      //   {persons}
-      // </div>
-      <div className="App">
-      <Cockpit
-        title={this.props.appTitle}
-        showPersons={this.state.showPersons}
-        persons={this.state.persons}
-        clicked={this.togglePersonsHandler}
-      />
-      {persons}
-    </div>
-
+      <div className={classes.App}>
+        <Cockpit
+          title={this.props.appTitle}
+          showPersons={this.state.showPersons}
+          persons={this.state.persons}
+          clicked={this.togglePersonsHandler}
+        />
+        {persons}
+      </div>
     );
+    // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
   }
 }
 
